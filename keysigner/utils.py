@@ -36,7 +36,7 @@ def print_yellow(message):
 def logo_ascii_art():
     logo_art = """
 +---------Welcome to-----------------------------+
-|    __                   _                 v1.0 |
+|    __                   _                 v2.0 |
 |   / /_____  __  _______(_)___ _____  ___  _____|
 |  / //_/ _ \/ / / / ___/ / __ `/ __ \/ _ \/ ___/|
 | / ,< /  __/ /_/ (__  ) / /_/ / / / /  __/ /    |
@@ -48,7 +48,7 @@ def logo_ascii_art():
 
 def meta_data():
     print(color_text("To generate and manage keystore using keytool.\nAnd sign APK with custom keystore using apksigner.", 96))
-    print(color_text("\nVersion:", 94), color_text("1.0", 92))
+    print(color_text("\nVersion:", 94), color_text("2.0", 92))
     print(color_text("Author:", 94), color_text("MuhammadRizwan", 92))
     print(color_text("Repository:", 94), color_text("https://github.com/muhammadrizwan87/keysigner", 92))
     print(color_text("Telegram Channel:", 94), color_text("https://TDOhex.t.me", 92))

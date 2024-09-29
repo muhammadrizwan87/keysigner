@@ -87,7 +87,7 @@ To build KeySigner from source:
 
     ```bash
     python -m build
-    pip install --force-reinstall dist/keysigner-1.0-py3-none-any.whl
+    pip install --force-reinstall dist/keysigner-2.0-py3-none-any.whl
     ```
 
 ---
