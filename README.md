@@ -44,7 +44,7 @@ Before using KeySigner, ensure that the following system dependencies are instal
 To install KeySigner on Termux, use the following command to install all necessary dependencies:
 
 ```bash
-pkg install python openjdk-17 keytool apksigner openssl-tool
+pkg install python openjdk-17 apksigner openssl-tool
 ```
 
 ### Installation via pip (Recommended)
