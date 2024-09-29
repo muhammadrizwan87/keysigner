@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "keysigner"
+version = "1.0"
+description = "A command-line tool for keystore management and APK signing for Android developers."
+readme = "README.md"
+authors = [
+    { name = "MuhammadRizwan", email = "mrizwan87@protonmail.com" }
+]
+license = { file = "LICENSE" }
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.urls]
+homepage = "https://github.com/muhammadrizwan87/keysigner"
+
+[project.scripts]
+keysigner = "keysigner.main:main"
+
+[tool.setuptools]
+packages = ["keysigner"]
+
+[tool.setuptools.package-data]
+"keysigner" = [
+    "lib/bcprov-jdk18on-1.78.jar",
+    "lib/testkey.pk8",
+    "lib/testkey.x509.pem"
+]
