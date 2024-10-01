@@ -36,9 +36,12 @@ class APKSigner:
     def sign_with_keystores(self):
         try:
             self.apk_file = validate_input(cyan_text("Enter the APK file to sign: "), path=True)
+            
             self.output_path = validate_input(cyan_text(f"Enter output path (default: {os.path.abspath('signed_apks')}): "), required=False)
             if not self.output_path or not os.path.exists(self.output_path):
                 self.output_path = ensure_directory(self.output_path, caller='signer')
+            
+            self.set_signing_schemes()
             
             valid_options = ['jks', 'p12', 'pem', 'test']
     
