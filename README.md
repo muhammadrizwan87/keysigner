@@ -58,7 +58,7 @@ pip install keysigner
 For the latest changes and features, install KeySigner directly from the GitHub repository:
 
 ```bash
-pip install -U git+https://github.com/muhammadrizwan87/keysigner.git
+pip install --force-reinstall -U git+https://github.com/muhammadrizwan87/keysigner.git
 ```
 
 ### Custom Build Installation
