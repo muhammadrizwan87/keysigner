@@ -17,7 +17,7 @@ class APKSigner:
         self.apk_file = None
 
     def set_signing_schemes(self):
-        scheme_choice = input(cyan_text("(Scheme v1/v2/v3 Enabled!) Press enter to skip or 'y' to change: "))
+        scheme_choice = validate_input(cyan_text("(Scheme v1/v2/v3 Enabled!) Press enter to skip or 'y' to change: "), required=False)
         if scheme_choice == 'y':
             print_blue("\n--- Set Signing Schemes (press Enter to use default values) ---")
             self.v1_enabled = validate_input(cyan_text("Enable V1 signing? (default: True): "), required=False) or True
