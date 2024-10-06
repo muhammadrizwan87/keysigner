@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "keysigner"
-version = "2.0"
+version = "3.0"
 description = "A command-line tool for keystore management and APK signing for Android developers."
 readme = "README.md"
 authors = [
