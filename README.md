@@ -52,7 +52,7 @@ pkg install python openjdk-17 apksigner openssl-tool
 You can easily install KeySigner using pip:
 
 ```bash
-pip install keysigner
+pip install --force-reinstall keysigner
 ```
 
 For the latest changes and features, install KeySigner directly from the GitHub repository:
