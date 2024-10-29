@@ -13,7 +13,7 @@ class KeystoreInfo:
     def get_keystore_info(self):
         print_blue("\n--- Gathering Keystore Information ---")
         self.keystore_path = validate_input(cyan_text("Enter keystore path: "), path=True)
-        self.store_pass = validate_input(cyan_text("Enter keystore password: "), password=True)
+        self.store_pass = validate_input(cyan_text("Enter keystore password: "), password_ck=True)
         self.determine_keystore_type()
 
     def determine_keystore_type(self):
