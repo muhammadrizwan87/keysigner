@@ -36,7 +36,7 @@ def print_yellow(message):
 def logo_ascii_art():
     logo_art = """
 +---------Welcome to-----------------------------+
-|    __                   _                 v3.0 |
+|    __                   _                 v4.0 |
 |   / /_____  __  _______(_)___ _____  ___  _____|
 |  / //_/ _ \/ / / / ___/ / __ `/ __ \/ _ \/ ___/|
 | / ,< /  __/ /_/ (__  ) / /_/ / / / /  __/ /    |
@@ -48,7 +48,7 @@ def logo_ascii_art():
 
 def meta_data():
     print(color_text("To generate and manage keystore using keytool.\nAnd sign APK with custom keystore using apksigner.", 96))
-    print(color_text("\nVersion:", 94), color_text("3.0", 92))
+    print(color_text("\nVersion:", 94), color_text("4.0", 92))
     print(color_text("Author:", 94), color_text("MuhammadRizwan", 92))
     print(color_text("Repository:", 94), color_text("https://github.com/muhammadrizwan87/keysigner", 92))
     print(color_text("Telegram Channel:", 94), color_text("https://TDOhex.t.me", 92))
@@ -99,27 +99,35 @@ def ensure_directory(user_path=None, dir_name='keystore', caller=None):
         print_red(f"An unexpected error occurred: {e}")
         raise Exception(f"An unexpected error occurred: {e}")
 
-def validate_input(prompt, required=True, password=False, password_ck=False, path=False):
+def validate_input(prompt, required=True, password=False, path=False, pass_opt=None, min_length=None):
     while True:
-        user_input = getpass(prompt) if (password or password_ck) else input(prompt)
-        
-        if user_input.lower() in ['q', 'x']:
-            print_blue("\nExiting keySigner. Goodbye!")
-            exit()
-
-        if required and not user_input:
-            print_red("This field is required. Please enter a value.")
-            continue
-
-        if (password and len(user_input) < 8) or (password_ck and len(user_input) < 6):
-            length = 8 if password else 6
-            print_red(f"Password must be at least {length} characters long.")
-            continue
-
-        if path:
-            user_input = os.path.abspath(user_input)
-            if not os.path.exists(user_input):
-                print_red("Invalid path. Please enter a valid path.")
+        if pass_opt:
+            user_input = getpass(cyan_text(prompt)) or pass_opt
+            if len(user_input) < min_length:
+                print_red(f"Password must be at least {min_length} characters long.")
                 continue
-
+        else:
+            user_input = getpass(prompt) if (password) else input(prompt)
+            
+            if user_input.lower() in ['q', 'x']:
+                print_blue("\nExiting keySigner. Goodbye!")
+                exit()
+    
+            if required and not user_input:
+                print_red("This field is required. Please enter a value.")
+                continue
+    
+            if password and len(user_input) < min_length:
+                print_red(f"Password must be at least {min_length} characters long.")
+                continue
+            
+            if path:
+                user_input = os.path.abspath(user_input)
+                if not os.path.exists(user_input):
+                    print_red("Invalid path. Please enter a valid path.")
+                    continue
+                if not os.access(user_input, os.R_OK):
+                    print_red("Path is not accessible. Please check permissions.")
+                    continue
+                
         return user_input

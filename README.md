@@ -1,16 +1,17 @@
 # KeySigner: Keystore Management and APK Signing Tool
 
 ## Overview
-KeySigner is a command-line python tool designed to simplify keystore management and APK signing. It integrates KeyTool and ApkSigner, allowing developers to easily generate keystores (JKS, BKS, PKCS12), manage certificates, and sign APKs with custom keystores supporting multiple signature schemes (v1, v2, v3). Whether you need to create, convert, or sign, KeySigner provides a user-friendly interface for developers of all levels and efficient workflow.
+KeySigner is a command-line python tool designed to simplify keystore management and APK signing. It integrates KeyTool and ApkSigner, allowing developers to easily generate and migrate keystores (JKS, BKS, PKCS12), extract certificates and private keys, and sign APKs with custom keystores, supporting multiple signature schemes (v1, v2, v3). Whether you need to create, migrate, or sign, KeySigner provides a user-friendly interface for developers of all levels and efficient workflow.
 
 ---
 
 ## Features
 
-- **Generate Keystores**: Easily create JKS, BKS, or PKCS12 keystores.
-- **Keystore Migration**: Seamlessly convert JKS or BKS keystores to PKCS12 format.
-- **Certificate Extraction**: Securely extract x509 certificates and private keys in PKCS8 format from PKCS12 keystores.
-- **Keystore Info Display**: Displays detailed information about the selected keystore, including certificate fingerprints, public key algorithm, expiries and more.
+- **Generate Keystores**: Easily generate JKS, BKS, and PKCS12 keystores.
+- **Keystore Migration**: Seamlessly migrate JKS, BKS and PKCS12 to each other.
+- **Export PKCS12 to PEM**: Securely extract x509 certificates and private keys in PKCS8 format from PKCS12 keystores.
+- **Import PEM to PKCS12**: Import the certificate and private key as new entries in the PKCS12 keystore.
+- **Keystore Info Display**: Displays detailed information about the selected keystore, including certificate fingerprints, public key algorithm, expiries and more. If you want a detailed analysis of your keystores we recommend our other tool SigTool. [Check out SigTool...](https://github.com/muhammadrizwan87/sigtool)
 - **APK Signing**: sign APK files with custom keystores, supporting multiple signing formats (v1, v2, v3).
 
 ---
@@ -87,7 +88,7 @@ To build KeySigner from source:
 
     ```bash
     python -m build
-    pip install --force-reinstall dist/keysigner-3.0-py3-none-any.whl
+    pip install --force-reinstall dist/keysigner-4.0-py3-none-any.whl
     ```
 
 ---
@@ -102,15 +103,13 @@ Example:
 $ keysigner
 
 Select an option:
-1. Create new JKS keystore
-2. Create new BKS keystore
-3. Create new PKCS12 keystore
-4. Migrate JKS to PKCS12
-5. Migrate BKS to PKCS12
-6. Convert PKCS12 to PEM and extract x509 certificate and private key
-7. Show keystore information
-8. Sign APK
-9. Show Notes
+1. Generate new keystore (JKS/BKS/PKCS12)
+2. Migrate keystores to each other (JKS/BKS/PKCS12)
+3. Convert PKCS12 to PEM and extract certificate and key
+4. Convert PEM to PKCS12
+5. Show keystore information
+6. Sign APK
+7. Show Notes
 q. Quit
 ```
 

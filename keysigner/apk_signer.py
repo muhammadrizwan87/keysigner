@@ -69,7 +69,7 @@ class APKSigner:
 
     def sign_with_keystore(self, keystore_type):
         keystore_path = validate_input(cyan_text(f"Enter {keystore_type.upper()} keystore path: "), path=True)
-        store_pass = validate_input(cyan_text("Enter keystore password: "), password_ck=True)
+        store_pass = validate_input(cyan_text("Enter keystore password: "), password=True, min_length=6)
         alias = validate_input(cyan_text("Enter alias name: "))
         base_name = os.path.splitext(os.path.basename(self.apk_file))[0]
         signed_apk = os.path.join(self.output_path, f"{base_name}_signed.apk")
@@ -87,7 +87,7 @@ class APKSigner:
         ]
     
         if keystore_type.lower() == 'jks':
-            key_pass = validate_input(cyan_text("Enter alias password: "), password_ck=True)
+            key_pass = validate_input(cyan_text("Enter alias password (default: same as keystore password): "), pass_opt=store_pass, min_length=6)
             cmd.extend(['--key-pass', f'pass:{key_pass}'])
     
         cmd.extend([self.apk_file])

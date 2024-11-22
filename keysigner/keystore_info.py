@@ -13,7 +13,7 @@ class KeystoreInfo:
     def get_keystore_info(self):
         print_blue("\n--- Gathering Keystore Information ---")
         self.keystore_path = validate_input(cyan_text("Enter keystore path: "), path=True)
-        self.store_pass = validate_input(cyan_text("Enter keystore password: "), password_ck=True)
+        self.store_pass = validate_input(cyan_text("Enter keystore password: "), password=True, min_length=6)
         self.determine_keystore_type()
 
     def determine_keystore_type(self):
@@ -26,7 +26,7 @@ class KeystoreInfo:
             self.keystore_type = 'PKCS12'
         else:
             while True:
-                keystore_type = validate_input(cyan_text("Keystore type not detected. Please enter keystore type (JKS/BKS/PKCS12): ")).upper()
+                keystore_type = validate_input(cyan_text("Please enter keystore type (JKS/BKS/PKCS12): ")).upper()
                 if keystore_type in ['JKS', 'BKS', 'PKCS12']:
                     self.keystore_type = keystore_type
                     break

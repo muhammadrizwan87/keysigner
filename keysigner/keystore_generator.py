@@ -4,9 +4,9 @@ import os
 import subprocess
 from .utils import *
 
-class KeystoreManager:
-    def __init__(self, store_type):
-        self.store_type = store_type
+class KeystoreGenerator:
+    def __init__(self):
+        self.store_type = None
         self.store_name = None
         self.store_pass = None
         self.alias = None
@@ -20,13 +20,20 @@ class KeystoreManager:
 
     def set_keystore_details(self):
         print_blue("\n--- Setting Keystore Details ---")
+        while True:
+            keystore_type = validate_input(cyan_text("Enter new keystore type (JKS/BKS/PKCS12): ")).upper()
+            if keystore_type in ['JKS', 'BKS', 'PKCS12']:
+                self.store_type = keystore_type
+                break
+            else:
+                print_red("Invalid keystore type. Please try again.")
         self.store_name = validate_input(cyan_text("Enter keystore name: "))
-        self.store_pass = validate_input(cyan_text("Enter keystore password: "), password=True)
+        self.store_pass = validate_input(cyan_text("Enter keystore password: "), password=True, min_length=8)
         self.alias = validate_input(cyan_text("Enter alias name: "))
         if self.store_type == 'PKCS12':
             self.key_pass = self.store_pass
         else:
-            self.key_pass = validate_input(cyan_text("Enter alias password: "), password=True)
+            self.key_pass = validate_input(cyan_text("Enter alias password (default: same as keystore password): "), pass_opt=self.store_pass, min_length=8)
         self.validity = validate_input(cyan_text("Enter validity (days, default 36500): "), required=False) or '36500'
         self.dname = self.generate_dname()
         if self.store_type == 'BKS':
@@ -54,7 +61,19 @@ class KeystoreManager:
         l = validate_input(cyan_text("Enter L (Locality): "), required=False)
         st = validate_input(cyan_text("Enter ST (State): "), required=False)
         c = validate_input(cyan_text("Enter C (Country Code): "), required=False)
-        return f"CN={cn}, OU={ou}, O={o}, L={l}, ST={st}, C={c}"
+    
+        if not any([cn, ou, o, l, st, c]):
+            return "CN=Unknown"
+        
+        dname_parts = []
+        if cn: dname_parts.append(f"CN={cn}")
+        if ou: dname_parts.append(f"OU={ou}")
+        if o: dname_parts.append(f"O={o}")
+        if l: dname_parts.append(f"L={l}")
+        if st: dname_parts.append(f"ST={st}")
+        if c: dname_parts.append(f"C={c}")
+        
+        return ", ".join(dname_parts)
 
     def generate_keytool_command(self):
         cmd = [
@@ -77,7 +96,7 @@ class KeystoreManager:
             cmd.extend(['-providerclass', self.provider_class, '-providerpath', self.provider_path])
         return cmd
 
-    def create_keystore(self):
+    def generate_keystore(self):
         try:
             self.set_keystore_details()
             self.cmd = self.generate_keytool_command()
@@ -85,12 +104,12 @@ class KeystoreManager:
             result = subprocess.run(self.cmd)
             
             if result.returncode != 0:
-                print_red("Keystore creation failed.")
+                print_red("Keystore generation failed.")
                 return
             
             print_green("KeyTool command executed successfully!")
-            print_green(f"Keystore created at: {self.store_path}")
-            self.handle_and_generate_command(self.cmd, "Keystore Command")
+            print_green(f"Keystore {self.store_type} generated at: {self.store_path}")
+            self.handle_and_generate_command(self.cmd, f"Keystore command to generate new {self.store_type}")
             
             if self.store_type != 'BKS':
                 self.generate_apksigner_command(self.store_path, self.store_pass, self.alias, self.key_pass)

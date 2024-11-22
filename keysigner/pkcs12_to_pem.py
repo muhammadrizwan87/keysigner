@@ -4,7 +4,7 @@ import os
 import subprocess
 from .utils import *
 
-class PKCS12Converter:
+class PKCS12ToPEM:
     def __init__(self):
         self.p12_path = None
         self.store_pass = None
@@ -13,7 +13,7 @@ class PKCS12Converter:
     def get_conversion_input(self):
         print_blue("\n--- Gathering PKCS12 Conversion Input ---")
         self.p12_path = validate_input(cyan_text("Enter PKCS12 keystore path: "), path=True)
-        self.store_pass = validate_input(cyan_text("Enter keystore password: "), password=True)
+        self.store_pass = validate_input(cyan_text("Enter keystore password: "), password=True, min_length=6)
         self.output_path = validate_input(cyan_text(f"Enter output path (default: {os.path.abspath('keystore')}): "), required=False)
 
         if not self.output_path or not os.path.exists(self.output_path):
